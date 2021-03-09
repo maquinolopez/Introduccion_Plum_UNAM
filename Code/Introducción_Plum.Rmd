@@ -1,0 +1,150 @@
+---
+title: "Introduccion_Plum"
+author: "Marco A. Aquino-Lopez"
+date: "3/5/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introducción a Plum
+
+### What is a likelihood
+
+Imagen there is a true age-depth function $t(x)$. 
+
+```{r}
+t <- function(x)(15*x)
+curve(t,from = 0 , to = 20)
+```
+Now we have sample at depths $5$, $10$ and $15$ with a machine that tell us the date with and error of $\pm 20$. This will result in  3 samples coming from normal distribution with means $75$, $150$ and $225$ respectively and standar deviation $20$.
+
+
+## Normal Distribution
+
+```{r}
+datos <- rnorm(1,50,10)
+plot(dnorm(x =  seq(0,100),mean = 50,sd = 15),type = 'l',ylab = '',xlab='',main = "Normal Distribution")
+points(x= datos,y = 0,pch = 16,col = rgb(0,0,1,.5))
+#Sys.sleep(2)
+for (i in 1:30){
+  points(x= rnorm(1,50,15),y = 0,pch = 16,col = rgb(0,0,1,.5) )
+#  Sys.sleep(1)
+}
+
+```
+
+```{r}
+datos <- rnorm(1,50,10)
+plot(dnorm(x =  seq(0,100),mean = 50,sd = 3),type = 'l',ylab = '',xlab='',main = "Normal Distribution")
+points(x= datos,y = 0,pch = 16,col = rgb(0,0,1,.5))
+#Sys.sleep(2)
+for (i in 1:30){
+  points(x= rnorm(1,50,3),y = 0,pch = 16,col = rgb(0,0,1,.5) )
+#  Sys.sleep(1)
+}
+```
+
+
+```{r}
+depths <- c(5,10,15)
+ages   <- rnorm(3,t(depths),20)
+curve(t,from = 0 , to = 20)
+points(depths,ages,col=rgb(0,0,1,.7),pch=18)
+```
+
+given that we only see the dates.
+If we assume a linear model with intercept at 0
+
+```{r}
+curve(t,from = 0 , to = 20,col=rgb(0,0,0,.1) )
+points(depths,ages,col=rgb(0,0,1,.7),pch=18)
+abline(a= 0 ,b = 10.6 ,col=rgb(1,0,0,.5))
+abline(a= 0 ,b = 20.9 ,col=rgb(1,0,0,.5))
+abline(a= 0 ,b = 12.9 ,col=rgb(1,0,0,.5))
+```
+Well we know that these dates came from a normally distribution. So the likelihood tell us how likely this ages are given the parameters of the model.
+
+the likelihood would look like this
+
+```{r}
+Like <- function (b){
+  A <- (ages-(b*depths))**2
+  exp(-.5 * A/4)  
+}
+
+curve(Like,from = 00, to =25,ylab = '',xlab = "b",)
+```
+```{r}
+curve(Like,from = 12, to =15)
+```
+
+
+```{r}
+model <- lm(ages ~ depths-1)
+summary(model)
+plx<-predict(model, se=T)
+
+curve(t,from = 0 , to = 20,col=rgb(0,0,0,.1) )
+points(depths,ages,col=rgb(0,0,1,.7),pch=18)
+abline(model)
+lines(depths,plx$fit - qt(0.975,plx$df)*plx$se, lty=2)
+lines(depths,plx$fit + qt(0.975,plx$df)*plx$se, lty=2)
+```
+
+
+### logaritmic funcion
+
+```{r}
+logFun <- function(x,A=100)( 10*log(A/(100-x)) )
+curve(logFun,from = 0,to =100,main="Log function", ylab = '',xlab='')
+```
+
+```{r}
+logFun <- function(x,A=100)( 10*log(A/(100-x)) )
+x=seq(99.999999999,100,length.out=100)
+plot(x,logFun(x),type = 'l',main="Log function", ylab = '',xlab='' )
+```
+
+
+
+### Bacon model
+
+```{r}
+alphas <- rgamma(5,shape = 1.5,scale = 20/1.5)
+memory <- rbeta(1,shape1 = 5,shape2 = 5)
+bacon <- function (al=alphas,mem=memory){
+  w <- mem
+  m <- c(al[1])
+  for (i in al[-1]){
+    m <- c(m,w*tail(m,1) + (1-w)*i )
+  }
+  rev(m) 
+}
+
+print(alphas )
+print(bacon() )
+
+plot(1:length(alphas),cumsum(bacon()), type = 'l',main="Bacon model",xlab = "depth",ylab = "age")
+
+```
+```{r}
+setwd("~")
+library(rbacon)
+Bacon(ask=F,suggest=F)
+```
+#############
+#############
+#############
+
+
+
+
+
+
+
+
