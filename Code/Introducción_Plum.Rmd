@@ -49,7 +49,7 @@ for (i in 1:30){
 }
 ```
 
-
+## back to likelihood
 ```{r}
 depths <- c(5,10,15)
 ages   <- rnorm(3,t(depths),20)
@@ -73,14 +73,18 @@ the likelihood would look like this
 
 ```{r}
 Like <- function (b){
-  A <- (ages-(b*depths))**2
-  exp(-.5 * A/4)  
+  A = 0
+  for (i in 1:3){
+    A <- A + (ages[i]-(b*depths[i]))**2
+  }
+  return(exp(-.5 * (A/4) )  )
 }
+x <- seq(10,20,by=.1)
 
-curve(Like,from = 00, to =25,ylab = '',xlab = "b",)
+curve(Like,ylab="",xlab="b",main="Likelihood",from=0,to =20)
 ```
 ```{r}
-curve(Like,from = 12, to =15)
+curve(Like,from = 16, to =17)
 ```
 
 
