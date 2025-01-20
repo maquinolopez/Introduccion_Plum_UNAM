@@ -1,7 +1,7 @@
 
 # Introducción a rPlum para Fechado de Sedimentos con 210Pb
 
-Este repositorio contiene recursos para aprender y trabajar con el paquete [`rPlum`](https://cran.r-project.org/web/packages/rplum/index.html), una herramienta en R para la modelización bayesiana de cronologías de sedimentos basada en datos de \( {}^{210}	ext{Pb} \). Aquí encontrarás un script detallado en R y una presentación en formato PDF que explican el funcionamiento y aplicaciones del modelo `Plum`.
+Este repositorio contiene recursos para aprender y trabajar con el paquete [`rPlum`](https://cran.r-project.org/web/packages/rplum/index.html), una herramienta en R para la modelización bayesiana de cronologías de sedimentos basada en datos de $^{210}Pb$. Aquí encontrarás un script detallado en R y una presentación en formato PDF que explican el funcionamiento y aplicaciones del modelo `Plum`.
 
 ## Contenido
 
@@ -9,13 +9,13 @@ Este repositorio contiene recursos para aprender y trabajar con el paquete [`rPl
 
 - **[`Code/Introduccion_Plum_Espanol.R`](Introduccion_Plum_Espanol.R)**: Un script en R que muestra cómo:
   - Instalar y utilizar el paquete `rPlum`.
-  - Ejecutar análisis de datos de \( {}^{210}	ext{Pb} \) con ejemplos prácticos.
+  - Ejecutar análisis de datos de $^{210}Pb$ con ejemplos prácticos.
   - Generar modelos de edad-profundidad.
   - Calcular y graficar tasas de acumulación para profundidades y edades específicas.
 
 - **[`Plum_20012025.pdf`](Plum_20012025.pdf)**: Presentación en PDF que explica:
   - Los fundamentos de Plum como modelo bayesiano.
-  - La estructura del modelo, incluyendo el modelo CRS y la integración de datos adicionales como \( {}^{137}	ext{Cs} \) y \( {}^{14}	ext{C} \).
+  - La estructura del modelo, incluyendo el modelo CRS y la integración de datos adicionales como $^{137}Cs$ y $^{14}C$.
   - Ejemplos visuales de resultados y comparación con métodos clásicos.
 
 ## Instalación
