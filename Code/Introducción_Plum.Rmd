@@ -63,9 +63,9 @@ If we assume a linear model with intercept at 0
 ```{r}
 curve(t,from = 0 , to = 20,col=rgb(0,0,0,.1) )
 points(depths,ages,col=rgb(0,0,1,.7),pch=18)
-abline(a= 0 ,b = 10.6 ,col=rgb(1,0,0,.5))
-abline(a= 0 ,b = 20.9 ,col=rgb(1,0,0,.5))
-abline(a= 0 ,b = 12.9 ,col=rgb(1,0,0,.5))
+#abline(a= 0 ,b = 10.6 ,col=rgb(1,0,0,.5))
+abline(a= 0 ,b = 13. ,col=rgb(1,0,0,.5))
+#abline(a= 0 ,b = 12.9 ,col=rgb(1,0,0,.5))
 ```
 Well we know that these dates came from a normally distribution. So the likelihood tell us how likely this ages are given the parameters of the model.
 
@@ -79,12 +79,11 @@ Like <- function (b){
   }
   return(exp(-.5 * (A/4) )  )
 }
-x <- seq(10,20,by=.1)
 
 curve(Like,ylab="",xlab="b",main="Likelihood",from=0,to =20)
 ```
 ```{r}
-curve(Like,from = 16, to =17)
+curve(Like,from = 12, to =14)
 ```
 
 
@@ -119,23 +118,23 @@ plot(x,logFun(x),type = 'l',main="Log function", ylab = '',xlab='' )
 ### Bacon model
 
 ```{r}
-alphas <- rgamma(5,shape = 1.5,scale = 20/1.5)
+alphas <- rgamma(30,shape = 1.5,scale = 20/1.5)
 memory <- rbeta(1,shape1 = 5,shape2 = 5)
 bacon <- function (al=alphas,mem=memory){
-  w <- mem
+  w <- 0.3#mem
   m <- c(al[1])
   for (i in al[-1]){
     m <- c(m,w*tail(m,1) + (1-w)*i )
   }
   rev(m) 
 }
-
-print(alphas )
-print(bacon() )
-
+#print(alphas )
+#print(bacon() )
 plot(1:length(alphas),cumsum(bacon()), type = 'l',main="Bacon model",xlab = "depth",ylab = "age")
 
 ```
+
+
 ```{r}
 setwd("~")
 library(rbacon)
